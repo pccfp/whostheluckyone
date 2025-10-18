@@ -57,7 +57,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 100px; /* 50% smaller than original 200px */
+      width: 130px; /* 50% smaller than original 200px */
       height: auto;
       z-index: 2;
       transform: translate(-50%, -50%) rotate(0deg);
@@ -102,14 +102,21 @@
     let currentRotation = 0;
 
     spinButton.addEventListener("click", () => {
-      const spinAmount = 1800 + Math.random() * 1800; // spin between 1800° and 3600°
+      // Randomly choose the winner
+      const winner = Math.random() < 0.5 ? "Andre" : "Feli";
+
+      // Determine final rotation so the right side points at the winner
+      let targetAngle = winner === "Andre" ? 90 : 270;
+
+      // Add multiple full spins for dramatic effect
+      const spins = 5; // full 360° rotations
+      const spinAmount = spins * 360 + targetAngle - (currentRotation % 360);
+
       currentRotation += spinAmount;
+
       gun.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        const normalized = currentRotation % 360;
-        // Right side of the gun is at +90°
-        const winner = (normalized >= 90 && normalized < 270) ? "Feli" : "Andre";
         alert(`🎯 Good luck ${winner}!`);
       }, 4000);
     });
